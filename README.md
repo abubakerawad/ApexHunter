@@ -98,9 +98,10 @@ pip install .
 To install ApexHunter globally so you can call it from any directory:
 ```bash
 pip install pipx
-pipx install .
+pip install apex-hunter-dfir
 ```
 Now, simply type `apexhunter` in any terminal to launch the wizard.
+
 
 ---
 
