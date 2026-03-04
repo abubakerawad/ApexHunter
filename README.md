@@ -94,6 +94,14 @@ python -m venv .venv
 pip install .
 ```
 
+#### **Global Install (Run from anywhere)**
+To install ApexHunter globally so you can call it from any directory:
+```bash
+pip install pipx
+pipx install .
+```
+Now, simply type `apexhunter` in any terminal to launch the wizard.
+
 ---
 
 ## 📖 Usage
