@@ -74,33 +74,29 @@ ollama pull mistral:latest
 
 ### 2. Install ApexHunter
 
-Ensure you have **Python 3.9+** installed.
+Ensure you have **Python 3.9+** installed. You can install directly from PyPI:
 
-#### **Linux / macOS**
+```bash
+pip install apex-hunter-dfir
+```
+
+#### **Run from anywhere (Global Access)**
+To install ApexHunter globally so you can call it from any directory:
+```bash
+pip install pipx
+pipx install apex-hunter-dfir
+```
+Now, simply type `apexhunter` in any terminal to launch the wizard.
+
+#### **Manual Installation (for Developers)**
+If you want to contribute to the project:
 ```bash
 git clone https://github.com/bogdanticu88/ApexHunter.git
 cd ApexHunter
 python3 -m venv .venv
 source .venv/bin/activate
-pip install .
+pip install -e .
 ```
-
-#### **Windows (PowerShell)**
-```powershell
-git clone https://github.com/bogdanticu88/ApexHunter.git
-cd ApexHunter
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install .
-```
-
-#### **Global Install (Run from anywhere)**
-To install ApexHunter globally so you can call it from any directory:
-```bash
-pip install pipx
-pip install apex-hunter-dfir
-```
-Now, simply type `apexhunter` in any terminal to launch the wizard.
 
 
 ---
