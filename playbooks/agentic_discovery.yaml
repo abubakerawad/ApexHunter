@@ -1,0 +1,28 @@
+name: Agentic Discovery Hunt
+description: Uses local LLM to autonomously explore forensic artifacts for suspicious behavior.
+author: Lead Hunter
+hypothesis: A malicious actor has established persistence via a scheduled task or an unusual process start, and we want to find any evidence of this.
+severity: medium
+data_sources:
+  - security_evtx
+  - dns_events
+global:
+  llm_model: mistral:latest
+
+steps:
+  - id: step_1_autonomous_discovery
+    description: "Autonomously discover suspicious activity in the forensic logs"
+    query_type: agentic
+    hypothesis: "Find any evidence of process creation or scheduled tasks from unusual sources. Look for patterns that don't look like standard Windows system noise."
+    condition: count > 0
+    next_on_hit: step_2_llm_reasoning
+    next_on_miss: null
+    llm_instruction: null
+
+  - id: step_2_llm_reasoning
+    description: "Review and reason about the agentic hits"
+    query_type: sql
+    query: "SELECT * FROM step_1_autonomous_discovery"
+    next_on_hit: null
+    next_on_miss: null
+    llm_instruction: "Analyze the findings from the autonomous discovery. Does this look like an actual persistence mechanism or a false positive?"

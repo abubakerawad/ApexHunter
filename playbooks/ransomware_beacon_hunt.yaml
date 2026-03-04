@@ -1,0 +1,40 @@
+name: Ransomware C2 Beacon Hunt
+description: Detects potential DGA or repetitive beaconing behavior in DNS/HTTP logs
+author: SOC Team
+hypothesis: Malware infected hosts will exhibit repetitive, high-entropy DNS queries or HTTP requests to unseen domains.
+mitre_techniques:
+  - T1071.001
+  - T1568.002
+severity: high
+data_sources:
+  - dns_events
+  - http_events
+global:
+  llm_model: mistral:latest
+  output_formats: [markdown, json]
+
+steps:
+  - id: step_1_dns_volume
+    description: "Identify internal hosts making an unusually high volume of DNS queries to distinct domains"
+    query_type: sql
+    query: >
+      SELECT src_ip, COUNT(DISTINCT query) as unique_queries, COUNT(*) as total_queries 
+      FROM dns_events 
+      GROUP BY src_ip 
+      HAVING total_queries > 5
+    condition: count > 0
+    enrich_keys: ["src_ip"]
+    output_vars:
+      target_host: "src_ip"
+    next_on_hit: step_2_llm_eval
+    next_on_miss: null
+    llm_instruction: null
+
+  - id: step_2_llm_eval
+    description: "Evaluate high-volume DNS host {{target_host}} for DGA patterns using LLM"
+    query_type: sql
+    query: "SELECT * FROM dns_events WHERE src_ip = '{{target_host}}'"
+    enrich_keys: ["query"]
+    next_on_hit: null
+    next_on_miss: null
+    llm_instruction: "Analyze the DNS queries for IP address {{target_host}}. Look for random-looking domains indicating DGA. Cross-reference with the enrichment tags if present."

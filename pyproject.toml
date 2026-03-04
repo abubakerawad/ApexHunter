@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apexhunter"
+version = "0.1.0"
+authors = [
+  { name="SOC Team" },
+]
+description = "Autonomous, agentic threat hunting playbook executor."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml",
+    "pandas",
+    "duckdb",
+    "ollama",
+    "streamlit",
+    "rich",
+    "typer",
+]
+
+[project.scripts]
+apexhunter = "apexhunter.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["apexhunter*"]

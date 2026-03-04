@@ -1,0 +1,7 @@
+timestamp,event_id,process_name,command_line,user,parent_process,target_object
+2026-03-04T10:00:10Z,1,w3wp.exe,C:\Windows\System32\inetsrv\w3wp.exe,IIS APPPOOL\DefaultAppPool,,
+2026-03-04T10:01:00Z,1,cmd.exe,cmd.exe /c "echo hello",IIS APPPOOL\DefaultAppPool,w3wp.exe,
+2026-03-04T10:30:00Z,19,WMI,EventFilter: "GhostFilter",SYSTEM,,
+2026-03-04T10:30:05Z,20,WMI,EventConsumer: "GhostConsumer",SYSTEM,,
+2026-03-04T10:30:10Z,21,WMI,FilterToConsumerBinding,SYSTEM,,
+2026-03-04T10:35:00Z,1,powershell.exe,powershell.exe -ExecutionPolicy Bypass -File C:\Windows\Temp\persist.ps1,SYSTEM,scrcons.exe,

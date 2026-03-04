@@ -1,0 +1,44 @@
+name: Operation Ghost Admin Hunt
+description: A multi-stage hunt targeting HAFNIUM-like lateral movement and WMI persistence.
+author: Lead Hunter
+hypothesis: An attacker has moved laterally using Pass-the-Hash and established persistence via WMI event subscriptions.
+severity: high
+mitre_techniques:
+  - T1550.002
+  - T1047
+  - T1546.003
+global:
+  llm_model: mistral:latest
+
+steps:
+  - id: step_1_lateral_move
+    description: "Detect potential Pass-the-Hash (PtH) lateral movement in security logs"
+    query_type: sql
+    query: >
+      SELECT timestamp, src_ip, user, share_name 
+      FROM security_logs 
+      WHERE logon_type = 3 AND key_length = 0
+    condition: count > 0
+    next_on_hit: step_2_persistence
+    next_on_miss: null
+    llm_instruction: "Analyze these Logon Type 3 events with Key Length 0. Determine if this indicates an automated credential abuse or Pass-the-Hash technique."
+
+  - id: step_2_persistence
+    description: "Detect WMI Event Subscription persistence in Sysmon logs"
+    query_type: sql
+    query: >
+      SELECT * FROM sysmon_logs 
+      WHERE event_id IN (19, 20, 21)
+    condition: count > 0
+    next_on_hit: step_3_agentic_reasoning
+    next_on_miss: null
+    llm_instruction: "Verify the WMI event filters and consumers found. Are they associated with known-bad persistence names or suspicious script execution (e.g., from scrcons.exe)?"
+
+  - id: step_3_agentic_reasoning
+    description: "Autonomously investigate the correlation between lateral movement and persistence"
+    query_type: agentic
+    hypothesis: "The attacker moved from the suspicious source IP identified in step 1 and then established the WMI persistence in step 2. Find any common user accounts or timestamps that link these two events."
+    condition: count > 0
+    next_on_hit: null
+    next_on_miss: null
+    llm_instruction: "Review the overall findings. Is this a confirmed APT-level intrusion? Provide a timeline of the attacker's actions."

@@ -1,0 +1,10 @@
+pyyaml
+pandas
+duckdb
+ollama
+streamlit
+rich
+typer
+pytest
+python-evtx
+sqlparse
