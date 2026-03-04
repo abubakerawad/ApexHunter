@@ -8,7 +8,11 @@
 ![LLM](https://img.shields.io/badge/LLM-Ollama-EF4135?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-Kali_Linux-557CF2?style=for-the-badge&logo=kali-linux&logoColor=white)
 ![4715f328-07ea-430d-8b11-c7a5ed872143(1)](https://github.com/user-attachments/assets/299074c5-901a-4adc-b95c-975c43fd960d)
-
+[<image-card alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" ></image-card>](https://opensource.org/licenses/MIT)
+[<image-card alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" ></image-card>](https://www.python.org/downloads/)
+[<image-card alt="Ollama" src="https://img.shields.io/badge/Ollama-Local%20LLM-green" ></image-card>](https://ollama.com/)
+[<image-card alt="Stars" src="https://img.shields.io/github/stars/bogdanticu88/ApexHunter?style=social" ></image-card>](https://github.com/bogdanticu88/ApexHunter)
+[<image-card alt="Forks" src="https://img.shields.io/github/forks/bogdanticu88/ApexHunter?style=social" ></image-card>](https://github.com/bogdanticu88/ApexHunter/forks)
 **ApexHunter** is an autonomous, agentic threat hunting playbook executor designed for senior SOC analysts and DFIR professionals. It bridges the gap between static detection and intelligent investigation by executing structured YAML playbooks against forensic artifacts (EVTX, CSV, JSON, Parquet) using local LLMs for correlation, triage, and automated discovery.
 
 ---
